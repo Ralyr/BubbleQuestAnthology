@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] GameObject assaultButton;
 
     int pop = 0;
+    int hop = 0;
 
     private void Start()
     {
@@ -28,6 +29,20 @@ public class MainMenuController : MonoBehaviour
         if (pop != 0)
         {
             hopButton.SetActive(true);
+        }
+
+        if (PlayerPrefs.HasKey("hop"))
+        {
+            hop = PlayerPrefs.GetInt("hop");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("hop", 0);
+        }
+
+        if (hop != 0)
+        {
+            assaultButton.SetActive(true);
         }
     }
     public void OnGame1Press()

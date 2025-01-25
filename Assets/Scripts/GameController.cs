@@ -48,12 +48,29 @@ public class GameController : MonoBehaviour
             }
 
             state = value;
+            Debug.Log($"State set to {state}");
+
+            if (state == GameState.Win)
+            {
+                if (SceneManager.GetActiveScene().name == "BubblePop")
+                {
+                    PlayerPrefs.SetInt("pop", 1);
+                }
+                else if (SceneManager.GetActiveScene().name == "BubbleHop")
+                {
+                    PlayerPrefs.SetInt("hop", 1);
+                }
+                else
+                {
+                    //ToDo: do something special for beating all 3 games
+                }
+            }
 
             StateChange.Invoke(state);
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         StateChange = new GameStateChange();
         gameTimerMax = GetMaxTime();
@@ -71,7 +88,7 @@ public class GameController : MonoBehaviour
         if (gameTimer >= gameTimerMax)
         {
             //game over
-            state = GameState.Lose;
+            State = GameState.Lose;
         }
     }
 }
