@@ -11,15 +11,14 @@ public class PopLevelController : MonoBehaviour
 
     float xSpacing = 5f;
     float currentXPos;
-    float goalYPos = 5f; //should be centered
+    float previousYPos = -1;
+    float yPosMaxChange = 2f;
+    float goalOffset = -0.75f; //The difference between the center of the top obstacle, and the gap the player passes through.
 
     int currentId = 0;
 
     float obstacleTimer = -5f; //Give the player a chance to get through a few obstacles first
     float obstacleTimerMax = 2f;
-
-    float gameTimer = 0f;
-    float gameTimerMax = 30f; //ToDo: too short?
 
     //ToDo: count obstacles cleared?
 
@@ -67,23 +66,27 @@ public class PopLevelController : MonoBehaviour
     {
         //ToDo: display some sort of victory screen
         PlayerPrefs.SetInt("pop", 1);
+        GameController.Instance.State = GameState.Win;
     }
-
-    public float GetGameDuration() { return gameTimerMax; }
 
     private void UpdateObstacle(int id)
     {
         GameObject obstacle = obstacles[id];
+        float rand;
+        if (previousYPos == -1)
+            rand = Random.Range(2f, 8f); //ToDo: should be random but relative to the previous value, so the player is more likely to be able to hit it?
+        else
+            rand = Random.Range(previousYPos - yPosMaxChange, previousYPos + yPosMaxChange);
 
-        float rand = Random.Range(2f, 8f);
         obstacle.transform.position = new Vector3(currentXPos, rand, 0f);
         currentXPos += xSpacing;
+        previousYPos = rand;
     }
 
     void SpawnGoal()
     {
-        currentXPos += xSpacing; //give the player extra time to hit the goal
-        GameObject goal = GameObject.Instantiate(goalPrefab, new Vector3(currentXPos, goalYPos, 0f), Quaternion.identity);
+        currentXPos += xSpacing;
+        GameObject goal = GameObject.Instantiate(goalPrefab, new Vector3(currentXPos, previousYPos + goalOffset, 0f), Quaternion.identity);
     }
 
     private void Update()
@@ -93,11 +96,10 @@ public class PopLevelController : MonoBehaviour
         if (obstacleTimer > obstacleTimerMax)
         {
             //ToDo: after x obstacles cleared, instead of updating the obstacles spawn the goal
-            if (obstaclesCleared >= obstaclesNeeded)
+            if (obstaclesCleared >= obstaclesNeeded) //On average, we hit another 4 obstacles after reaching the 10 since they've already been repositioned, maybe do this 4 obstacles earlier?
             {
                 SpawnGoal();
                 obstacleTimer = 0f;
-                obstacleTimerMax *= 2f; //give player time to hit the goal, spawn another if they miss it.
                 return;
             }
             
@@ -109,13 +111,5 @@ public class PopLevelController : MonoBehaviour
 
             obstacleTimer = 0f;
         }
-
-        gameTimer += Time.deltaTime; //ToDo: hook this up to the text object
-        if (gameTimer > gameTimerMax)
-        {
-            //ToDo: Pop the bubble
-            Debug.Log("Game Ended");
-        }
-
     }
 }

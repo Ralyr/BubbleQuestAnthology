@@ -12,14 +12,23 @@ public class PopController : MonoBehaviour
     float speed = 3f; //ToDo: speed up over time?
     Vector2 jumpSpeed = new Vector2(0f, 10f);
 
+    GameState state;
+
     private void Start()
     {
         vel = new Vector2();
         rigid = gameObject.GetComponent<Rigidbody2D>();
+
+        GameController.Instance.StateChange.AddListener(StateChange);
     }
+
+    public void StateChange(GameState newState) { state = newState; }
 
     private void Update()
     {
+        if (state != GameState.Playing)
+            return;
+
         vel.x = speed;
         rigid.velocity = vel;
 
@@ -36,5 +45,6 @@ public class PopController : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("POP");
+        GameController.Instance.State = GameState.Lose;
     }
 }

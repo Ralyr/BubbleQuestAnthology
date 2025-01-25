@@ -11,13 +11,12 @@ public class PlatformingController : MonoBehaviour
 
     float speed = 2f;
     float downSpeed = 0.01f;
-    //float jumpSpeed = 4f;
     Vector2 jumpVel = new Vector2(0f, 500f);
 
     float vertSpeedMax = 10f; //ToDo: TEST
 
     public int jumps; //ToDo: Just public for debugging
-    int jumpsMax = 3; //??
+    int jumpsMax = 3; //ToDo: number of jumps inverse of remaining health? less health = more jumps?
 
     private void Start()
     {
@@ -28,9 +27,9 @@ public class PlatformingController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Hazard") //ToDo: MAKE TAG
+        if (collision.gameObject.tag == "Hazard")
         {
-            //Pop, game over
+            //Game over, or just hp--?
         }
         else
         {

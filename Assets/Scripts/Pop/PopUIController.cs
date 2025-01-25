@@ -10,8 +10,6 @@ public class PopUIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] TextMeshProUGUI obstaclesText;
 
-    float gameTimer = 0f;
-
     private static PopUIController instance;
     public static PopUIController Instance
     {
@@ -32,30 +30,8 @@ public class PopUIController : MonoBehaviour
         obstaclesText.text = $"{obstacleCount} / {obstacleTotal}";
     }
 
-    public void OnMenuPressed()
-    {
-        SceneManager.LoadSceneAsync("SampleScene");
-    }
-
-    public void OnReplayPressed()
-    {
-        SceneManager.LoadSceneAsync("BubblePop");
-    }
-
     public void OnNextPressed()
     {
         SceneManager.LoadSceneAsync("BubbleHop");
-    }
-
-    private void Start()
-    {
-        gameTimer = PopLevelController.Instance.GetGameDuration();
-    }
-
-    private void Update()
-    {
-        gameTimer -= Time.deltaTime;
-
-        timerText.text = gameTimer.ToString("00\\:00"); //Just shows seconds lol
     }
 }
