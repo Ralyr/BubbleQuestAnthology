@@ -10,8 +10,11 @@ public class PlatformingController : MonoBehaviour
     Rigidbody2D rigid;
 
     float speed = 2f;
+    float downSpeed = 0.01f;
     //float jumpSpeed = 4f;
     Vector2 jumpVel = new Vector2(0f, 500f);
+
+    float vertSpeedMax = 10f; //ToDo: TEST
 
     public int jumps; //ToDo: Just public for debugging
     int jumpsMax = 3; //??
@@ -37,9 +40,7 @@ public class PlatformingController : MonoBehaviour
 
     private void Update()
     {
-        //vel = Vector2.zero;
         vel.x = Input.GetAxis("Horizontal");
-        //vel.y = Input.GetAxis("Vertical"); //ToDo: re-add the optional downward speed up, it was nice with such a floaty character and a time limit
         vel.y = rigid.velocity.y;
 
         vel.x *= speed;
@@ -49,6 +50,17 @@ public class PlatformingController : MonoBehaviour
             rigid.AddForce(jumpVel, ForceMode2D.Force);
             jumps--;
         }
+        
+        if (Input.GetKey(KeyCode.S))
+        {
+            vel.y -= downSpeed;
+        }
+
+        //Clamp vel.y within reasonable bounds
+        if (vel.y > vertSpeedMax)
+            vel.y = vertSpeedMax;
+        else if (vel.y < -vertSpeedMax)
+            vel.y = -vertSpeedMax;
 
         rigid.velocity = vel;
     }
