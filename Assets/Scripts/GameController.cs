@@ -47,6 +47,9 @@ public class GameController : MonoBehaviour
                 return;
             }
 
+            if (state == GameState.Win) //Don't let the state switch to lose if the player has already won. If they win posthumusly that's fine though.
+                return;
+
             state = value;
             Debug.Log($"State set to {state}");
 
@@ -62,6 +65,7 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
+                    PlayerPrefs.SetInt("assault", 1);
                     //ToDo: do something special for beating all 3 games
                 }
             }
@@ -79,7 +83,21 @@ public class GameController : MonoBehaviour
 
     public float GetMaxTime()
     {
-        return SceneManager.GetActiveScene().name == "BubblePop" ? 30f : 60f;
+        float time = 0;
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "BubblePop":
+                time = 30f;
+                break;
+            case "BubbleHop":
+                time = 60f;
+                break;
+            case "BubbleAssault":
+                time = 90f;
+                break;
+        }
+
+        return time;
     }
 
     private void Update()

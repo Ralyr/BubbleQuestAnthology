@@ -57,7 +57,7 @@ public class MainMenuController : MonoBehaviour
 
     public void OnGame3Press()
     {
-        SceneManager.LoadSceneAsync("Assault");
+        SceneManager.LoadSceneAsync("BubbleAssault");
     }
 
     public void OnQuitPress()
