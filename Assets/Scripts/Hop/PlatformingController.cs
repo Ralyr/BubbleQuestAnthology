@@ -51,7 +51,7 @@ public class PlatformingController : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         health = gameObject.GetComponent<Health>();
         health.SetMaxHp(maxHP);
-        jumps = 1;
+        jumpsMax = 1;
 
         GameController.Instance.StateChange.AddListener(StateChange);
     }
