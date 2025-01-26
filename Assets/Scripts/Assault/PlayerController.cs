@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject altBulletPrefab;
     [SerializeField] Transform bulletSpawn;
+    [SerializeField] GameObject healthIndicator;
+
+    Vector3 indicatorRotationMax = new Vector3(0f, 0f, -30f);
+    Vector3 indicatorRotationMin = new Vector3(0f, 0f, 30f);
 
     SpriteRenderer spriteRenderer;
 
@@ -58,10 +62,30 @@ public class PlayerController : MonoBehaviour
 
         if (health.HP < 0)
             health.HP = 0;
+
+        if (health.HP == maxHP)
+        {
+            healthIndicator.SetActive(true);
+            healthIndicator.transform.eulerAngles = indicatorRotationMax;
+        }
+        else if (health.HP == 2)
+        {
+            healthIndicator.SetActive(false);
+        }
+        else if (health.HP == 1)
+        {
+            healthIndicator.SetActive(true);
+            healthIndicator.transform.eulerAngles = indicatorRotationMin;
+        }
+        else if (health.HP == 0)
+        {
+            healthIndicator.SetActive(false);
+        }
     }
 
     private void Start()
     {
+        healthIndicator.SetActive(true);
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         gotSecret = PlayerPrefs.HasKey("secret") && PlayerPrefs.GetInt("secret") == 1;
         bullets = new List<GameObject>();
