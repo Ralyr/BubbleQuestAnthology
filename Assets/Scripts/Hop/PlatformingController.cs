@@ -63,10 +63,16 @@ public class PlatformingController : MonoBehaviour
     }
     public void ChangeHP(int amount)
     {
-        health.HP += amount;
+        if (health.HP + amount > maxHP)
+            health.HP = maxHP;
+        else
+            health.HP += amount;
+
+        if (health.HP < 0)
+            health.HP = 0;
+
         if (health.HP <= 0)
         {
-            Debug.Log("Hp <= 0");
             GameController.Instance.State = GameState.Lose;
         }
         else if (health.HP == 1)
@@ -82,9 +88,11 @@ public class PlatformingController : MonoBehaviour
             jumpsMax = 1;
         }
 
-        spriteRenderer.sprite = bubblemen[health.HP - 1];
+        if (health.HP > 0)
+            spriteRenderer.sprite = bubblemen[health.HP - 1];
+        else
+            spriteRenderer.enabled = false;
     }
-
 
     public void OnCollisionEnter2D(Collision2D collision)
     {

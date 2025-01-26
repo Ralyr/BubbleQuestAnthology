@@ -5,7 +5,8 @@ using UnityEngine;
 public class PopController : MonoBehaviour
 {
     // Controls the player in the flappyBird game
-
+    SpriteRenderer spriteRenderer;
+    ParticleSystem particleSystem;
     Vector2 vel;
     Rigidbody2D rigid;
 
@@ -16,6 +17,8 @@ public class PopController : MonoBehaviour
 
     private void Start()
     {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        particleSystem = gameObject.GetComponent<ParticleSystem>();
         vel = new Vector2();
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
@@ -44,7 +47,8 @@ public class PopController : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("POP");
+        particleSystem.Emit(5);
+        spriteRenderer.enabled = false;
         GameController.Instance.State = GameState.Lose;
     }
 }

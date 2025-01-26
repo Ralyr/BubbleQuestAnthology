@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject altBulletPrefab;
     [SerializeField] Transform bulletSpawn;
 
+    SpriteRenderer spriteRenderer;
+
     List<GameObject> bullets;
     int maxBullets = 20;
 
@@ -49,11 +51,18 @@ public class PlayerController : MonoBehaviour
     public void ChangeHP (int amount)
     {
         Debug.Log("Player hit");
-        health.HP += amount;
+        if (health.HP + amount > maxHP)
+            health.HP = maxHP;
+        else
+            health.HP += amount;
+
+        if (health.HP < 0)
+            health.HP = 0;
     }
 
     private void Start()
     {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         gotSecret = PlayerPrefs.HasKey("secret") && PlayerPrefs.GetInt("secret") == 1;
         bullets = new List<GameObject>();
         for (int i = 0; i < maxBullets; i++)
@@ -74,6 +83,7 @@ public class PlayerController : MonoBehaviour
     public void Death()
     {
         GameController.Instance.State = GameState.Lose;
+        spriteRenderer.enabled = false;
         isDead = true;
     }
 
@@ -81,7 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Hazard")
         {
-            health.HP--;
+            ChangeHP(-1);
         }
     }
 
