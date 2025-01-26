@@ -7,13 +7,15 @@ public class BossHead : MonoBehaviour
     // Activates when the other 2 boss components are dead
     [SerializeField] Transform laserStart;
     [SerializeField] BossLaserEnd laserEnd;
+    [SerializeField] Sprite deadSprite;
+
+    SpriteRenderer spriteRenderer;
 
     bool armDead = false;
     bool noseDead = false;
 
     Health health;
-    int maxHp = 8;
-    Collider2D col;
+    int maxHp = 10;
 
     bool isActive = false;
     bool isFiring = false;
@@ -25,11 +27,11 @@ public class BossHead : MonoBehaviour
 
     private void Start()
     {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         health = gameObject.GetComponent<Health>();
         health.deathEvent.AddListener(Death);
         health.SetMaxHp(maxHp);
-        col = gameObject.GetComponent<Collider2D>();
-        col.enabled = false;
+        health.isActive = false;
 
         laserStartPos = new Vector2(laserStart.position.x, laserStart.position.y);
         laserEnd.SetHead(this);
@@ -46,6 +48,7 @@ public class BossHead : MonoBehaviour
         isActive = false;
         isFiring = false;
 
+        spriteRenderer.sprite = deadSprite;
         GameController.Instance.State = GameState.Win;
     }
 
@@ -71,7 +74,7 @@ public class BossHead : MonoBehaviour
     void Activate()
     {
         //Time for lasers
-        col.enabled = true;
+        health.isActive = true;
         isFiring = true;
         isActive = true;
         laserEnd.StartMove();
@@ -82,6 +85,9 @@ public class BossHead : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyUp(KeyCode.L))
+            Activate();
+
         if (!isActive)
             return;
 

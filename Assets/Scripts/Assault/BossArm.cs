@@ -21,7 +21,6 @@ public class BossArm : MonoBehaviour
     float bulletDelayMax = 3f;
 
     SpriteRenderer spriteRenderer;
-    new Collider2D collider;
 
     Health health;
     int maxHP = 10;
@@ -36,7 +35,6 @@ public class BossArm : MonoBehaviour
         bullets = new List<GameObject>();
 
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        collider = gameObject.GetComponent<Collider2D>();
 
         for (int i = 0; i < bulletsMax; i++)
         {
@@ -53,9 +51,9 @@ public class BossArm : MonoBehaviour
 
     public void Death()
     {
-        //spriteRenderer.sprite = deadSprite; //ToDo: Uncomment when art
+        spriteRenderer.sprite = deadSprite;
         isDead = true;
-        collider.enabled = false;
+        health.isActive = false;
         head.ArmDead();
     }
 

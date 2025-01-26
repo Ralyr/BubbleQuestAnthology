@@ -5,9 +5,12 @@ using UnityEngine;
 public class PlatformingController : MonoBehaviour
 {
     // Controls the player in the sidescrolling platformer game
+    [SerializeField] List<Sprite> bubblemen;
 
     Vector2 vel;
     Rigidbody2D rigid;
+
+    SpriteRenderer spriteRenderer;
 
     float speed = 2f;
     float downSpeed = 0.01f;
@@ -42,11 +45,13 @@ public class PlatformingController : MonoBehaviour
 
     private void Start()
     {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
         vel = new Vector2();
         rigid = gameObject.GetComponent<Rigidbody2D>();
         health = gameObject.GetComponent<Health>();
         health.SetMaxHp(maxHP);
-        jumps = jumpsMax;
+        jumps = 1;
 
         GameController.Instance.StateChange.AddListener(StateChange);
     }
@@ -76,6 +81,8 @@ public class PlatformingController : MonoBehaviour
         {
             jumpsMax = 1;
         }
+
+        spriteRenderer.sprite = bubblemen[health.HP - 1];
     }
 
 

@@ -27,7 +27,7 @@ public class PopUIController : MonoBehaviour
 
     public void UpdateObstacleCount(int obstacleCount, int obstacleTotal)
     {
-        obstaclesText.text = $"{obstacleCount} / {obstacleTotal}";
+        obstaclesText.text = $"{obstacleCount} / {obstacleTotal + 4}"; //It takes an extra 4 obstacles to reach the spawned goal
     }
 
     public void OnNextPressed()

@@ -13,14 +13,11 @@ public class PopLevelController : MonoBehaviour
     float currentXPos;
     float previousYPos = -1;
     float yPosMaxChange = 2f;
-    float goalOffset = -0.75f; //The difference between the center of the top obstacle, and the gap the player passes through.
 
     int currentId = 0;
 
     float obstacleTimer = -5f; //Give the player a chance to get through a few obstacles first
     float obstacleTimerMax = 2f;
-
-    //ToDo: count obstacles cleared?
 
     int obstaclesCleared = 0;
     int obstaclesNeeded = 10;
@@ -64,7 +61,6 @@ public class PopLevelController : MonoBehaviour
 
     public void GoalReached()
     {
-        //ToDo: display some sort of victory screen
         PlayerPrefs.SetInt("pop", 1);
         GameController.Instance.State = GameState.Win;
     }
@@ -74,7 +70,7 @@ public class PopLevelController : MonoBehaviour
         GameObject obstacle = obstacles[id];
         float rand;
         if (previousYPos == -1)
-            rand = Random.Range(2f, 8f); //ToDo: should be random but relative to the previous value, so the player is more likely to be able to hit it?
+            rand = Random.Range(2f, 8f);
         else
             rand = Random.Range(previousYPos - yPosMaxChange, previousYPos + yPosMaxChange);
 
@@ -96,7 +92,6 @@ public class PopLevelController : MonoBehaviour
         obstacleTimer += Time.deltaTime;
         if (obstacleTimer > obstacleTimerMax)
         {
-            //ToDo: after x obstacles cleared, instead of updating the obstacles spawn the goal
             if (obstaclesCleared >= obstaclesNeeded) //On average, we hit another 4 obstacles after reaching the 10 since they've already been repositioned, maybe do this 4 obstacles earlier?
             {
                 SpawnGoal();

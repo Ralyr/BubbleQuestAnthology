@@ -11,7 +11,6 @@ public class BossNose : MonoBehaviour
     [SerializeField] BossHead head;
 
     SpriteRenderer spriteRenderer;
-    new Collider2D collider;
 
     List<GameObject> bullets;
     int maxBullets = 20;
@@ -38,7 +37,6 @@ public class BossNose : MonoBehaviour
         }
 
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        collider = gameObject.GetComponent<Collider2D>();
 
         health = gameObject.GetComponent<Health>();
         health.SetMaxHp(maxHP);
@@ -52,9 +50,9 @@ public class BossNose : MonoBehaviour
 
     public void Death()
     {
-        //spriteRenderer.sprite = deadSprite; //ToDo: Uncomment when art
+        spriteRenderer.sprite = deadSprite;
         isDead = true;
-        collider.enabled = false;
+        health.isActive = false;
         head.NoseDead();
     }
 

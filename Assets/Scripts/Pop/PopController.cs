@@ -9,8 +9,8 @@ public class PopController : MonoBehaviour
     Vector2 vel;
     Rigidbody2D rigid;
 
-    float speed = 3f; //ToDo: speed up over time?
-    Vector2 jumpSpeed = new Vector2(0f, 10f);
+    float speed = 3f;
+    Vector2 jumpSpeed = new Vector2(0f, 3300f);
 
     GameState state;
 
@@ -34,11 +34,11 @@ public class PopController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            rigid.AddForce(jumpSpeed);
+            rigid.AddForce(jumpSpeed * Time.deltaTime, ForceMode2D.Force);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            rigid.AddForce(-jumpSpeed); //ToDo: should this be slower?
+            rigid.AddForce(-jumpSpeed * Time.deltaTime, ForceMode2D.Force);
         }
     }
 
