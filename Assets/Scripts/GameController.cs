@@ -102,6 +102,9 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        if (State != GameState.Playing)
+            return;
+
         gameTimer += Time.deltaTime;
         if (gameTimer >= gameTimerMax)
         {

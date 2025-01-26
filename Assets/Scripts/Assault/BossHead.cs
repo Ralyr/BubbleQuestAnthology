@@ -82,13 +82,6 @@ public class BossHead : MonoBehaviour
 
     private void Update()
     {
-        //ToDo: testing, remove
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            Debug.Log("Activating");
-            Activate();
-        }
-
         if (!isActive)
             return;
 

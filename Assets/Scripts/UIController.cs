@@ -20,6 +20,8 @@ public class UIController : MonoBehaviour
 
     float gameTimer;
 
+    bool isPlaying = true;
+
     private void Start()
     {
         gameTimer = GameController.Instance.GetMaxTime();
@@ -51,15 +53,20 @@ public class UIController : MonoBehaviour
         if (newState == GameState.Lose)
         {
             OnGameEnd(false);
+            isPlaying = false;
         }
         else if (newState == GameState.Win)
         {
             OnGameEnd(true);
+            isPlaying = false;
         }
     }
 
     private void Update()
     {
+        if (!isPlaying)
+            return;
+
         gameTimer -= Time.deltaTime;
 
         timerText.text = gameTimer.ToString("00\\:00"); //Just shows seconds lol

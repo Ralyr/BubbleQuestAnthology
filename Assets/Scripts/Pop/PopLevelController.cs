@@ -86,7 +86,8 @@ public class PopLevelController : MonoBehaviour
     void SpawnGoal()
     {
         currentXPos += xSpacing;
-        GameObject goal = GameObject.Instantiate(goalPrefab, new Vector3(currentXPos, previousYPos + goalOffset, 0f), Quaternion.identity);
+        float yPos = GameObject.FindGameObjectWithTag("Player").transform.position.y;
+        GameObject goal = GameObject.Instantiate(goalPrefab, new Vector3(currentXPos, yPos, 0f), Quaternion.identity);
     }
 
     private void Update()

@@ -21,10 +21,10 @@ public class BossArm : MonoBehaviour
     float bulletDelayMax = 3f;
 
     SpriteRenderer spriteRenderer;
-    Collider2D collider;
+    new Collider2D collider;
 
     Health health;
-    int maxHP = 10; //ToDo: test
+    int maxHP = 10;
 
     bool isDead = false;
 
@@ -64,7 +64,7 @@ public class BossArm : MonoBehaviour
         if (isDead)
             return;
 
-        //ToDo: fire a spread of bullets, shotgun style
+        //Fires a spread of bullets
         bulletDelay += Time.deltaTime;
         if (bulletDelay >= bulletDelayMax)
         {

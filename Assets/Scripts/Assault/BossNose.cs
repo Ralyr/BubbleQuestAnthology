@@ -11,19 +11,19 @@ public class BossNose : MonoBehaviour
     [SerializeField] BossHead head;
 
     SpriteRenderer spriteRenderer;
-    Collider2D collider;
+    new Collider2D collider;
 
     List<GameObject> bullets;
     int maxBullets = 20;
 
     float bulletDelay = 0f;
-    float bulletDelayMax = 0.5f; //ToDo: fire faster at low health?
+    float bulletDelayMax = 0.5f;
     int bulletId = 0;
     int burstCount = 0;
     int burstCountMax = 3;
 
     Health health;
-    int maxHP = 10; //ToDo: test
+    int maxHP = 10;
 
     bool isDead = false;
 

@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // Controls the player in assault
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject altBulletPrefab;
     [SerializeField] Transform bulletSpawn;
 
     List<GameObject> bullets;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     bool isDead = false;
 
     float yLimit = 7f;
+
+    bool gotSecret = false;
 
     private static PlayerController instance;
     public static PlayerController Instance
@@ -51,10 +54,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        gotSecret = PlayerPrefs.HasKey("secret") && PlayerPrefs.GetInt("secret") == 1;
         bullets = new List<GameObject>();
         for (int i = 0; i < maxBullets; i++)
         {
-            GameObject bullet = GameObject.Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            GameObject bullet = GameObject.Instantiate(gotSecret ? altBulletPrefab : bulletPrefab, transform.position, Quaternion.identity);
             bullets.Add(bullet);
             bullet.SetActive(false);
         }
@@ -95,6 +99,7 @@ public class PlayerController : MonoBehaviour
                 GameObject bullet = bullets[bulletId];
                 //move bullet's position to spawn
                 bullet.transform.position = bulletSpawn.position;
+                bullet.transform.rotation = gameObject.transform.rotation;
                 //activate
                 bullet.SetActive(true);
                 //increment id
@@ -107,7 +112,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //ToDo: limit the player to the screen area
         vel.x = Input.GetAxis("Horizontal");
         vel.y = Input.GetAxis("Vertical");
 

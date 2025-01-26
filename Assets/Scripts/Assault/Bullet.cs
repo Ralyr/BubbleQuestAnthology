@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     // Controls a bullet.
 
     [SerializeField] float speed;
+    [SerializeField] int damage = -1;
 
     float timer = 0f;
     [SerializeField] float timerMax = 5f;
@@ -27,21 +28,21 @@ public class Bullet : MonoBehaviour
             //check if we hit a boss part, damage that part
             if (collision.gameObject.tag == "BossNose")
             {
-                collision.gameObject.GetComponent<BossNose>().ChangeHP(-1);
+                collision.gameObject.GetComponent<BossNose>().ChangeHP(damage);
             }
             else if (collision.gameObject.tag == "BossArm")
             {
-                collision.gameObject.GetComponent<BossArm>().ChangeHP(-1);
+                collision.gameObject.GetComponent<BossArm>().ChangeHP(damage);
             }
             else if (collision.gameObject.tag == "BossHead")
             {
-                collision.gameObject.GetComponent<BossHead>().ChangeHP(-1);
+                collision.gameObject.GetComponent<BossHead>().ChangeHP(damage);
             }
         }
         else
         {
             if (collision.gameObject.tag == "Player")
-                PlayerController.Instance.ChangeHP(-1);
+                PlayerController.Instance.ChangeHP(damage);
         }
 
         //ToDo: explosion effect
